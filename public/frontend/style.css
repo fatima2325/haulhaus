@@ -1,0 +1,1072 @@
+
+/* FOR ALL FILES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Times New Roman', Times, serif;
+    background-color: white;
+
+}
+
+html,body{
+    overflow-x: hidden;
+}
+img {
+    border-radius: 14px;
+}
+
+
+/*--------- HEADER / NAVBAR BASE STYLES-----------------*/
+.top-section {
+    background-color: #430a1e;
+    height: auto;
+    width: 100%;
+    color: white;
+}
+
+
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    position: relative;
+    margin-right: 20px;
+
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+
+nav ul li a:hover {
+    color: white;
+    border-bottom: 1.5px solid white;
+    padding-bottom: 2px;
+    transition: 0.3s;
+}
+
+/* Cart icon */
+.cart-icon {
+    font-size: 20px;
+    color:white;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+/* Hide dropdown menu initially */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #430a1e;
+    padding: 10px;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+}
+
+.dropdown-menu li {
+    margin: 8px 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+
+/*------- RESPONSIVE NAVBAR --------*/
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    /* Show hamburger icon */
+    .nav-icons {
+        display: block;
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+    }
+
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #430a1e;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Show when active */
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+
+    .dropdown-menu {
+        position: static;
+        background-color: transparent;
+        padding: 0;
+        display: none;
+    }
+
+    .dropdown-menu li a {
+        font-size: 14px;
+    }
+
+    /* Show submenu when parent clicked */
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+
+    .dropdown:hover .dropdown-menu {
+        display: none;
+    }
+}
+
+
+/* HOME PAGE ONLY (MIDDLE  PART(CENTRE OF TWO MAROON BOXES) */
+.container{
+    max-width: 1300px;
+    margin: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+/* Reduce container padding on mobile */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px; /* Reduced space */
+        padding-right: 10px; /* Reduced space */
+    }
+}
+.col-2 h1{
+   color: #651732 ;
+      display: flex;
+      font-size: 48px;
+
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.col-2 p{
+    color: black;
+  display: flex;
+  font-size: 18px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.col-2 a{
+
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+}
+.row{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content:space-around ;
+}
+
+.col-2{
+    flex-basis: 50%;
+    min-width:300px ;
+}
+
+
+.btn {
+    display: block;
+    font-weight: bold;
+    margin: 15px auto;
+    background: #6c1835;
+    color: #fff;
+    padding: 8px 30px;
+    border-radius: 30px;
+    text-align: center;
+    width: fit-content;
+    transition: background 0.5s;
+    margin-top: 50px;
+}
+
+.btn:hover{
+    background: #49091f;
+    color: white;
+}
+
+.bottom-img{
+    display: block;
+     margin: 30px auto 0 auto;
+     width: 60%;
+     height: auto;
+}
+
+
+/* OUR COLLECTIONS */
+.col-3 {
+    flex-basis: 25%;
+    padding: 10px;
+    min-width: 200px;
+    margin-bottom: 50px;
+    text-align: center;
+    transition: transform 0.5s;
+    color: #651732;
+}
+
+.col-3 a {
+    text-decoration: none;
+    color: #651732;
+}
+
+.col-3 img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px auto;
+    transition: transform 0.35s ease;  /* animate image only */
+}
+
+.col-3 :hover img{
+    transform: translateY(-12px);
+}
+
+.title{
+    text-align: center;
+    margin: 0 auto 80px;
+    position: relative;
+    line-height: 60px;
+    color: #555;
+}
+
+.col-3 h3 {
+/*color: #651732;*/
+}
+
+.title::after{
+content: '';
+background: #651732;
+width: 80px;
+height: 5px;
+border-radius: 5px;
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+}
+
+
+/*FEATURED PRODUCTS AND ALL SHOP DROPDOWN PRODUCTS */
+.col-4 ,.hobo-page .hobo,.tote-page .tote,.bp-page .bp,.cb-page .cb {
+    flex-basis: 25%;
+    padding: 10px;
+    min-width: 200px;
+    margin-bottom: 50px;
+    text-align: center;
+    transition: transform 0.5s;
+    color: #651732;
+}
+
+.col-4 a,
+.hobo-page .hobo a,
+.tote-page .tote a,
+.bp-page .bp a,
+.cb-page .cb a {
+    text-decoration: none;
+    color: #651732;
+}
+
+.col-4 img, .hobo-page .hobo img, .tote-page .tote img, .bp-page .bp img,.cb-page .cb img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 15px auto;
+  transition: transform 0.35s ease;  /* animate image only */
+  will-change: transform;
+}
+
+
+.col-4:hover img,
+.hobo-page .hobo:hover img,
+.tote-page .tote:hover img ,
+.bp-page .bp:hover img,
+.cb-page .cb:hover img
+{
+  transform: translateY(-12px);
+}
+
+.title{
+    text-align: center;
+    margin: 0 auto 80px;
+    position: relative;
+    line-height: 60px;
+    color: #555;
+    margin-top: 12px;
+
+}
+
+.title::after{
+content: '';
+background: #651732;
+width: 80px;
+height: 5px;
+border-radius: 5px;
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+}
+
+/* ---------- FEATURED PRODUCTS AND SHOP PRODUCTS BUTTON  (HOME AND SHOP DROPDOWN)---------- */
+
+.col-4 button,.hobo-page .hobo button,
+.tote-page .tote button,
+.bp-page .bp button,
+.cb-page .cb button {
+  background-color: #802544;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: transform 0.2s ease,background-color 0.2s ease;
+  margin-top: 10px;
+   display: inline-block;
+}
+
+
+.col-4 button:hover ,.hobo-page .hobo button:hover
+,.tote-page .tote button:hover,
+.bp-page .bp button:hover ,
+.cb-page .cb button:hover {
+  background-color: #430a1e;
+
+}
+
+
+/* --------ABOUT US SECTION----------- */
+.about-us {
+    padding: 20px 0;
+}
+
+.about-us .title {
+    margin-bottom: 40px;
+}
+
+.about-us h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #651732;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.about-us p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.about-us .about-text {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.about-us .about-image {
+    display: flex;
+    align-items: center;
+}
+
+.about-us .about-image img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 30px auto 0 auto;
+}
+
+@media (max-width: 768px) {
+
+    .about-us {
+        padding: 40px 0;
+        margin-top: 30px;
+    }
+
+    .about-us .row {
+
+        flex-direction: column;
+    }
+
+    .about-us .col-2 {
+        flex-basis: 100%;
+        min-width: unset;
+        margin-bottom: 20px;
+    }
+
+    .about-us .about-text {
+
+        padding-right: 0;
+        text-align: center;
+        order: 2;
+    }
+
+    .about-us .about-image {
+        order: 1;
+        margin-bottom: 25px;
+    }
+
+    .about-us h3 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .about-us p {
+        text-align: center;
+        padding: 0 10px;
+    }
+
+}
+
+
+
+/* --------------------CONTACT PAGE ONLY---------------------------- */
+
+/* CONTACT FORM CONTAINER */
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+
+        .contact-form {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            color: #651732;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        .contact-form h2 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .contact-form label {
+            text-align: left;
+
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #010115;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .contact-form button {
+            background-color: #651732;
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .contact-form button:hover {
+            background-color: #43071d;
+        }
+
+
+
+
+
+/* DROPDOWN MENU STYLING (ALL FILES) */
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-radius: 8px;
+    padding: 10px 0;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+     transition: all 0.7s ease;
+
+}
+
+.dropdown-menu li {
+    display: block;
+    margin: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 15px;
+    color: rgb(20, 20, 20);
+    text-align: left;
+    font-size: 14px;
+}
+
+.dropdown-menu li a:hover {
+    background-color: rgba(232, 246, 221, 0.73);
+    color: #651732;
+}
+
+
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    display: block;
+}
+
+.dropdown-menu {
+    transition: all 0.3s ease;
+}
+
+
+/* ---------- PRODUCT DETAIL PAGE ---------- */
+.product-detail {
+    padding: 80px 20px 40px;
+}
+
+.product-detail h2 {
+    font-weight: bold;
+}
+
+.product-detail .col-2 {
+
+    padding-left: 0;
+}
+
+.product-detail .col-2 img {
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.product-detail .col-2 h2 {
+    font-size: 32px;
+    color: #651732;
+    margin-bottom: 15px;
+
+}
+
+.product-detail .col-2 p.price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #651732;
+    margin: 0 0 15px 0; /* removes top/left space, keeps bottom spacing */
+    padding: 0;          /* removes any internal padding */
+    text-align: left;    /* keeps it aligned left */
+}
+
+
+.product-detail .col-2 p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.product-detail form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.product-detail input[type="number"] {
+    width: 50px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.product-detail button {
+    padding: 5px 10px;
+    background-color: #7e2242;
+    width: 200px;
+    border-radius: 6px;
+    color: white;
+
+}
+
+.product-detail button:hover {
+
+    background-color: #500c24;
+    color: white;
+}
+
+/* Back link */
+.product-detail a {
+    color: #651732;
+    font-weight: 500;
+    text-decoration: none;
+
+}
+
+.product-detail a:hover {
+    color: #651732;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+    .product-detail .col-2 {
+        flex-basis: 100%;
+        text-align: center;
+    }
+    .product-detail .col-2 img {
+        margin: 0 auto 20px auto;
+    }
+    .product-detail button{
+        display: inline-block;
+        margin: 0 auto 10px auto;
+    }
+    .product-detail form{
+        align-items: center;
+        display: inline-block;
+        margin: 0 auto 10px auto;
+    }
+}
+
+
+/*---------Reviews ---------*/
+.reviews {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #651732;
+
+}
+
+.reviews h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+}
+
+.review-item {
+    border-bottom: 1px solid #651732;
+    padding: 15px 0;
+
+    margin: 0 30px;
+}
+
+.review-item:last-child {   /*for the last review the pink border line is removed*/
+    border-bottom: none;
+}
+
+.review-item strong {
+    color: #000;
+    font-size: 16px;
+
+    margin-bottom: 8px;
+}
+
+.review-item p {
+    color: #555;
+    line-height: 1.5;
+    margin-top: 10px;
+
+}
+
+.review-item span{
+    color: #651732 ;
+    margin-left: 5px;
+}
+
+/*----------TERM OF SERVICES PAGE ----------------*/
+
+.static-page-content {
+    /* Ensures content is centered on wider screens and has horizontal padding */
+    padding: 40px 15px;
+    margin: 0 auto;
+    /* Optional: Limit width for better readability on large monitors */
+    max-width: 900px;
+}
+
+.static-page-content .page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #651732;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #651732;
+    padding-bottom: 10px;
+}
+
+.static-page-content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #651732;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.static-page-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+
+.static-page-content ul li {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .static-page-content {
+        padding: 20px 10px;
+    }
+
+    .static-page-content .page-title {
+        font-size: 28px;
+    }
+
+    .static-page-content h2 {
+        font-size: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*---------- FOOTER-------- */
+.footer {
+    background: #430a1e;
+    color:white;
+    padding: 60px 0 20px;
+    font-size: 16px;
+    line-height: 1.5; /* Better readability */
+}
+
+.footer .row {
+    display: flex;
+    justify-content: space-between; /* pushes columns side by side */
+    align-items: flex-start;
+    flex-wrap: nowrap; /* keep on one line for desktop */
+    gap: 80px; /* adjust spacing between columns */
+}
+
+.footer-col-2,
+.footer-col-info {
+    flex: 1; /* let both take equal width */
+    min-width: 250px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+
+
+.footer h3 {
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    text-align: left;
+}
+
+.footer p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.footer i {
+    margin-right: 15px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.footer-col-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col-info ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col-info ul li a:hover {
+    color:white;
+    text-decoration-line: underline;
+    text-underline-offset: 4px;
+}
+
+.footer-col-info ul li a {
+    color:white;
+    font-size: 16px;
+    transition: color 0.3s;
+    text-decoration: none;
+}
+.social-links {
+    margin-top: 18px;
+    text-align: left;
+}
+
+.social-links a {
+    color:white;
+    font-size: 20px;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: white;
+}
+
+
+.copyright {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+}
+
+
+/*----FOOTER RESPONSIVENESS ----------*/
+@media (max-width: 768px) {
+
+    .footer .row {
+        flex-wrap: wrap; /* stack vertically for small screens */
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .footer-col-2,
+    .footer-col-info {
+        flex-basis: 100%;
+        text-align: center;
+        min-width: 0;
+    }
+
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .footer h3 {
+        text-align: left !important;
+    }
+
+    .footer .copyright {
+        font-size: 10px !important;
+    }
+}
+
+
+/* --- CUSTOM FILTER DROPDOWN STYLING --- */
+
+/* 1. Parent LI container (The HOVER TRIGGER) */
+.custom-filter-dropdown {
+    position: relative; /* CRITICAL: Allows absolute positioning of the dropdown list */
+    list-style: none;
+    padding: 0;
+}
+
+/* 2. The Visible Box (The button that says "Filter by Price") */
+.filter-display-box {
+    /* Styles matching the original <select> button */
+    border: 1px solid #651732;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    min-width: 150px;
+    transition: all 0.2s ease;
+}
+
+/* New: Style the Filter Icon to be maroon */
+.filter-display-box i.fa-filter {
+    color: #651732; /* Set the icon color to your primary maroon */
+}
+
+/* Default color for the visible text inside the filter box */
+.filter-selected-text {
+    color: #651732; /* REQUIRED: Always maroon */
+    flex-grow: 1;
+}
+
+/* Hover effect for the visible box */
+.custom-filter-dropdown:hover .filter-display-box {
+    border-color: #430a1e;
+    color: #430a1e;
+}
+
+/* --- Dropdown Menu (The list of options) --- */
+
+.filter-dropdown-menu {
+    display: none; /* CRITICAL: Hide by default */
+    position: absolute;
+    top: 100%; /* Position right below the visible box */
+    left: 0;
+    margin-top: 5px;
+    min-width: 100%;
+
+    /* Set to White background with rounded corners like your 'Shop' menu */
+    background-color: #FFFFFF;
+    border: 1px solid rgba(101, 23, 50, 0.1); /* Light border */
+    border-radius: 8px; /* Slightly more rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    list-style: none;
+    padding: 5px 0; /* Vertical padding */
+}
+
+/* PURE CSS TRIGGER: Show the menu when the parent list item is hovered */
+.custom-filter-dropdown:hover .filter-dropdown-menu {
+    display: block;
+}
+
+
+/* --- Individual Options Styling (The <a> tags inside the list) --- */
+
+.filter-dropdown-menu li a {
+    display: block; /* Makes the entire block clickable/hoverable */
+    padding: 8px 15px;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.2;
+    color: #651732;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.filter-dropdown-menu li a:hover {
+
+    background-color: rgba(232, 246, 221, 0.73);;
+    /* Change text color on hover to dark maroon/brown */
+    color: #430a1e;
+}
+
+/* 2. SELECTED EFFECT: New style for the active filter */
+.filter-dropdown-menu li a.selected {
+    /* Use a solid background for better visibility */
+    background-color: white;
+    /* REQUIRED: Set text color to white */
+    color: #430a1e;
+    font-weight: 600; /* Optional: Make text slightly bolder */
+}
+
+
+/* --- MOBILE RESPONSIVENESS (for stacked menu) --- */
+/* When the navbar collapses at 768px, the dropdown options should stack vertically */
+@media (max-width: 768px) {
+    .custom-filter-dropdown {
+        width: 100%;
+        margin: 10px 0;
+        position: static;
+    }
+
+    .filter-display-box {
+        justify-content: center;
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .filter-dropdown-menu {
+        /* Remove dropdown styling for mobile stacking */
+        position: static;
+        width: 100%;
+        max-width: 200px;
+        margin: 5px auto 0 auto;
+        border: none;
+        box-shadow: none;
+        background-color: transparent; /* Use the dark navbar background */
+        display: block; /* Force the menu to always be visible in the collapsed navbar */
+    }
+
+
+    .filter-dropdown-menu li a {
+        /* Set options text to white/light for better contrast against the dark background */
+        color: #FFFFFF;
+        background-color: transparent;
+        padding: 4px 15px;
+        text-align: left;
+    }
+
+    /* Mobile Hover State */
+    .filter-dropdown-menu li a:hover {
+        background-color: rgba(232, 246, 221, 0.3);
+        color: #FFFFFF;
+    }
+
+    /* Mobile Selected State */
+    .filter-dropdown-menu li a.selected {
+        background-color: rgba(232, 246, 221, 0.73); /* Use the primary maroon for the selected item background */
+        color: #FFFFFF;
+    }
+}
