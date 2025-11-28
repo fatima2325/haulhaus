@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Seed categories first
+        $this->call(CategorySeeder::class);
+
+        // Seed products if table is empty
+        if (Product::count() === 0) {
+            $this->call(ProductSeeder::class);
+        }
     }
 }

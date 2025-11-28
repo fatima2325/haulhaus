@@ -11,7 +11,7 @@
         <p>Several types of goods are exempt from being returned, including gift cards and any items purchased on sale or promotional offers.</p>
 
         <h2>3. Process</h2>
-        <p>To initiate a return, please email us at info@trendurabags.com with your order number and reason for the return. Our customer service team will provide you with return instructions.</p>
+        <p>To initiate a return, please email us at info@haulhausbags.com with your order number and reason for the return. Our customer service team will provide you with return instructions.</p>
 
         <h2>4. Refunds</h2>
         <p>Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. If the refund is approved, your refund will be processed, and a credit will automatically be applied to your original method of payment within 7-10 business days.</p>

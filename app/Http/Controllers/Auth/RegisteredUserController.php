@@ -45,6 +45,11 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // Redirect admin users to dashboard, regular users to home page
+        if ($user->name === 'admin') {
+            return redirect(route('dashboard', absolute: false));
+        }
+
+        return redirect(route('home', absolute: false))->with('success', 'Registration successful! Welcome to Haul Haus Bags.');
     }
 }

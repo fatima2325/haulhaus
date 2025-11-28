@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Trendura Bags')</title>
+    <title>@yield('title', 'Haul Haus Bags')</title>
 
     {{-- CSS --}}
     <link rel="stylesheet" href="{{ asset('style.css') }}">
@@ -20,15 +20,15 @@
 <header class="top-section">
     <nav class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Trendura Logo">
-            <h2>Trendura Bags</h2>
+            <img src="{{ asset('images/logo.png') }}" alt="Haul Haus Logo">
+            <h2>Haul Haus Bags</h2>
         </div>
 
         <ul class="nav-links">
             <li><a href="{{ route('home') }}">Home</a></li>
             <li><a href="{{ route('shop') }}">Shop</a></li>
             <li><a href="{{ route('contact') }}">Contact</a></li>
-            <li><a href="{{ route('cart') }}"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+            <li><a href="{{ route('cart.view') }}"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
         </ul>
     </nav>
 </header>
@@ -41,7 +41,7 @@
 {{-- ================= FOOTER ================= --}}
 <footer class="footer">
     <div class="footer-content">
-        <p>&copy; {{ date('Y') }} Trendura Bags. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} Haul Haus Bags. All rights reserved.</p>
         <div class="socials">
             <a href="#"><i class="fa-brands fa-instagram"></i></a>
             <a href="#"><i class="fa-brands fa-facebook"></i></a>

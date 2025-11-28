@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trendura Bags</title>
+    <title>Haul Haus Bags</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,7 +23,8 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('frontend/images/logo2.png') }}" width="125" alt="Trendura Bags Logo">
+                <img src="{{ asset('frontend/images/logo9.png') }}" width="125" alt="HaulHaus Bags Logo">
+
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
@@ -41,21 +42,89 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="shopDropdown">
                             <li><a class="dropdown-item" href="{{ url('shop') }}">All Products</a></li>
-
-                            <li><a class="dropdown-item" href="{{ url('shop') }}#tote-bags">Tote Bags</a></li>
-                            <li><a class="dropdown-item" href="{{ url('shop') }}#hobo-bags">Hobo Bags</a></li>
-                            <li><a class="dropdown-item" href="{{ url('shop') }}#backpacks">Backpacks</a></li>
-                            <li><a class="dropdown-item" href="{{ url('shop') }}#cross-body-bags">Crossbody Bags</a></li>
+                            @php
+                                $categories = \App\Models\Category::orderBy('name')->get();
+                            @endphp
+                            @foreach($categories as $category)
+                                <li>
+                                    <a class="dropdown-item" href="{{ url('shop') }}#{{ strtolower(str_replace(' ', '-', $category->name)) }}">
+                                        {{ $category->name }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
 
                     <li class="nav-item"><a class="nav-link" href="{{ url('contact') }}">Contact</a></li>
 
-                    <li class="nav-item">
-                        <a class="nav-link position-relative" href="{{ url('cart') }}">
-                            <i class="fas fa-shopping-cart cart-icon"></i>
-                        </a>
-                    </li>
+                    @auth
+                        @if(auth()->user()->name === 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.products.index') }}">
+                                    <i class="fas fa-cog"></i> Admin Panel
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('dashboard') }}">
+                                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-shield"></i> Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-sign-out-alt"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" href="{{ url('cart') }}">
+                                    <i class="fas fa-shopping-cart cart-icon"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> {{ Auth::user()->name }}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="{{ route('orders.index') }}"><i class="fas fa-shopping-bag mr-2"></i> My Orders</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-sign-out-alt"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="{{ route('cart.view') }}">
+                                <i class="fas fa-shopping-cart cart-icon"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus"></i> Register
+                            </a>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </nav>
