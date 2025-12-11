@@ -9,7 +9,7 @@
         <div class="mb-8 pb-4 border-b border-gray-200 dark:border-gray-700">
             <h3 class="text-3xl font-bold mb-2 text-center" style="color: #430a1e;">Edit Product</h3>
         </div>
-        <form action="{{ route('admin.products.update', $product) }}" method="POST">
+        <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -55,12 +55,27 @@
 
             <div class="mb-6 px-4">
                 <label for="image" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 text-left" style="color: #430a1e;">Image Filename</label>
-                <input type="text" name="image" id="image" value="{{ old('image', $product->image) }}" placeholder="e.g., habo bag2.jpg" required
+                <input type="text" name="image" id="image" value="{{ old('image', $product->image) }}" placeholder="e.g., habo bag2.jpg"
                     class="mt-1 block w-full rounded-lg border-2 border-gray-300 shadow-sm px-4 py-2.5 transition-colors duration-200"
                     onfocus="this.style.borderColor='#6c1835'"
                     onblur="this.style.borderColor='#d1d5db'">
-                <p class="mt-2 text-xs text-gray-500 italic">Enter the filename from the frontend/images folder</p>
+                <p class="mt-2 text-xs text-gray-500 italic">Enter the filename from the frontend/images folder or upload a file below.</p>
                 @error('image')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-6 px-4">
+                <label for="image_file" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 text-left" style="color: #430a1e;">Upload Image (optional)</label>
+                <input type="file" name="image_file" id="image_file" accept="image/png,image/jpeg,image/webp"
+                    class="mt-1 block w-full rounded-lg border-2 border-gray-300 shadow-sm px-4 py-2.5 transition-colors duration-200">
+                <p class="mt-2 text-xs text-gray-500 italic">Accepted types: JPG, PNG, WEBP. Max size: 2MB.</p>
+                <div class="mt-3">
+                    <div class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Preview</div>
+                    <img id="image-preview" src="{{ asset('frontend/images/' . (old('image', $product->image) ?: 'placeholder.jpg')) }}" alt="Preview" class="h-32 w-32 object-cover rounded border border-gray-200">
+                    <p id="image-file-error" class="mt-1 text-sm text-red-600" style="display: none;"></p>
+                </div>
+                @error('image_file')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -95,5 +110,65 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('image_file');
+        const previewImg = document.getElementById('image-preview');
+        const fileError = document.getElementById('image-file-error');
+        const filenameInput = document.getElementById('image');
+        const defaultPreview = previewImg?.src;
+
+        const resetError = () => {
+            if (fileError) {
+                fileError.style.display = 'none';
+                fileError.textContent = '';
+            }
+        };
+
+        const showError = (message) => {
+            if (fileError) {
+                fileError.style.display = 'block';
+                fileError.textContent = message;
+            }
+        };
+
+        fileInput?.addEventListener('change', () => {
+            resetError();
+            const file = fileInput.files?.[0];
+            if (!file) {
+                if (defaultPreview) previewImg.src = defaultPreview;
+                return;
+            }
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                showError('Unsupported file type. Please upload JPG, PNG, or WEBP.');
+                fileInput.value = '';
+                if (defaultPreview) previewImg.src = defaultPreview;
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                showError('File is too large. Maximum size is 2MB.');
+                fileInput.value = '';
+                if (defaultPreview) previewImg.src = defaultPreview;
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (previewImg && e.target?.result) {
+                    previewImg.src = e.target.result;
+                }
+            };
+            reader.readAsDataURL(file);
+
+            if (filenameInput && !filenameInput.value) {
+                filenameInput.value = file.name;
+            }
+        });
+    });
+</script>
 @endsection
 

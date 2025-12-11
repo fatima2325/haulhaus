@@ -86,6 +86,11 @@
                                     <div class="bg-white dark:bg-gray-600 p-3 rounded border border-gray-200 dark:border-gray-500">
                                         <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $review->name ?? 'Anonymous' }}</p>
                                         <p class="text-sm text-gray-600 dark:text-gray-300">Rating: ⭐ {{ $review->rating ?? 'N/A' }}/5</p>
+                                        @if($review->image)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('frontend/reviews/' . $review->image) }}" alt="Review image" class="h-20 w-auto rounded border border-gray-200 dark:border-gray-500">
+                                            </div>
+                                        @endif
                                         @if($review->comment)
                                             <p class="text-sm text-gray-700 dark:text-gray-200 mt-1">{{ $review->comment }}</p>
                                         @endif

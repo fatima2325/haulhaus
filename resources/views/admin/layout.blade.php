@@ -64,7 +64,7 @@
     <div class="py-6 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if(session('success'))
-                <div class="mb-6 bg-green-50 border-l-4 border-green-400 text-green-700 px-6 py-4 rounded-lg shadow-sm" role="alert">
+                <div class="mb-6 bg-green-50 border-l-4 border-green-400 text-green-700 px-6 py-4 rounded-lg shadow-sm auto-dismiss-success" role="alert">
                     <div class="flex items-center">
                         <i class="fas fa-check-circle mr-3 text-lg"></i>
                         <span class="font-medium">{{ session('success') }}</span>
@@ -84,5 +84,16 @@
             @yield('content')
         </div>
     </div>
+
+    <script>
+        // Auto-dismiss success flashes after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.auto-dismiss-success').forEach(el => {
+                el.style.transition = 'opacity 0.4s ease';
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 400);
+            });
+        }, 5000);
+    </script>
 </x-app-layout>
 

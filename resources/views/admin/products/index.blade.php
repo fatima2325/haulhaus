@@ -28,6 +28,19 @@
             @endauth
         </div>
 
+        <div class="mt-4">
+            <div class="relative max-w-lg">
+                <label for="product-search" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1" style="color: #430a1e;">Search by Name or Category</label>
+                <input type="text" id="product-search" placeholder="Start typing to search..."
+                       class="w-full rounded-lg border-2 border-gray-300 shadow-sm px-4 py-2.5 transition-colors duration-200"
+                       onfocus="this.style.borderColor='#6c1835'"
+                       onblur="this.style.borderColor='#d1d5db'">
+                <div id="search-results" class="absolute left-0 right-0 bg-white shadow-lg rounded-lg mt-1 border border-gray-200 z-10" style="display: none; max-height: 240px; overflow-y: auto;">
+                    <ul class="divide-y divide-gray-200" id="search-results-list"></ul>
+                </div>
+            </div>
+        </div>
+
         <div class="overflow-x-auto mt-6">
             <table class="min-w-full shadow-md rounded-lg overflow-hidden" style="border-collapse: separate; border-spacing: 0 12px;">
                 <thead>
@@ -127,5 +140,78 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('product-search');
+        const resultsBox = document.getElementById('search-results');
+        const resultsList = document.getElementById('search-results-list');
+        const searchUrl = "{{ route('admin.products.search') }}";
+        let debounceTimer;
+
+        const hideResults = () => {
+            if (resultsBox) {
+                resultsBox.style.display = 'none';
+                resultsList.innerHTML = '';
+            }
+        };
+
+        const renderResults = (items) => {
+            if (!resultsBox || !resultsList) return;
+            resultsList.innerHTML = '';
+
+            if (!items.length) {
+                resultsList.innerHTML = '<li class="px-4 py-3 text-sm text-gray-500">No matches found</li>';
+                resultsBox.style.display = 'block';
+                return;
+            }
+
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center space-x-3';
+                li.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="h-10 w-10 object-cover rounded border border-gray-200">
+                    <div class="flex-1">
+                        <div class="text-sm font-semibold" style="color: #430a1e;">${item.name}</div>
+                        <div class="text-xs text-gray-600">${item.category} &middot; Rs. ${Number(item.price).toLocaleString()}</div>
+                    </div>
+                    <div class="text-xs text-blue-600">View</div>
+                `;
+                li.addEventListener('click', () => {
+                    window.location.href = item.show_url;
+                });
+                resultsList.appendChild(li);
+            });
+
+            resultsBox.style.display = 'block';
+        };
+
+        searchInput?.addEventListener('keyup', () => {
+            const query = searchInput.value.trim();
+            clearTimeout(debounceTimer);
+
+            if (!query) {
+                hideResults();
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch(`${searchUrl}?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => renderResults(data.data || []))
+                    .catch(() => hideResults());
+            }, 250);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!resultsBox || !resultsBox.contains(e.target) && e.target !== searchInput) {
+                hideResults();
+            }
+        });
+    });
+</script>
 @endsection
 

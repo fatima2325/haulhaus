@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -43,13 +45,25 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'category' => ['required', 'in:' . implode(',', $validCategorySlugs)],
             'price' => 'required|numeric|min:0',
-            'image' => 'required|string|max:255',
+            'image' => 'nullable|string|max:255',
+            'image_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'description' => 'nullable|string',
             'reviews' => 'nullable|array',
         ]);
 
-        // Trim whitespace from image filename
-        $validated['image'] = trim($validated['image']);
+        // Require either uploaded image or filename
+        if (!$request->hasFile('image_file') && !$request->filled('image')) {
+            return back()->withInput()->withErrors([
+                'image' => 'Please provide an image filename or upload an image.',
+            ]);
+        }
+
+        // Trim whitespace from image filename when provided
+        if ($request->filled('image')) {
+            $validated['image'] = trim($validated['image']);
+        }
+
+        $this->handleImageUpload($request, $validated);
 
         Product::create($validated);
 
@@ -88,13 +102,23 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'category' => ['required', 'in:' . implode(',', $validCategorySlugs)],
             'price' => 'required|numeric|min:0',
-            'image' => 'required|string|max:255',
+            'image' => 'nullable|string|max:255',
+            'image_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'description' => 'nullable|string',
             'reviews' => 'nullable|array',
         ]);
 
-        // Trim whitespace from image filename
-        $validated['image'] = trim($validated['image']);
+        if (!$request->hasFile('image_file') && !$request->filled('image')) {
+            return back()->withInput()->withErrors([
+                'image' => 'Please provide an image filename or upload an image.',
+            ]);
+        }
+
+        if ($request->filled('image')) {
+            $validated['image'] = trim($validated['image']);
+        }
+
+        $this->handleImageUpload($request, $validated);
 
         $product->update($validated);
 
@@ -111,6 +135,67 @@ class ProductController extends Controller
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product deleted successfully.');
+    }
+
+    /**
+     * Ajax search for products by name and category.
+     */
+    public function search(Request $request)
+    {
+        $query = trim((string) $request->query('q', ''));
+
+        $products = Product::query()
+            ->when($query, function ($builder) use ($query) {
+                $builder->where(function ($inner) use ($query) {
+                    $inner->where('name', 'like', '%' . $query . '%')
+                        ->orWhere('category', 'like', '%' . $query . '%');
+                });
+            })
+            ->orderBy('name')
+            ->limit(10)
+            ->get();
+
+        $categories = [
+            'hobo' => 'Hobo Bags',
+            'cb' => 'Cross Body Bags',
+            'bp' => 'Backpacks',
+            'tote' => 'Tote Bags'
+        ];
+
+        $results = $products->map(function ($product) use ($categories) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'category' => $categories[$product->category] ?? ucfirst($product->category),
+                'price' => $product->price,
+                'image' => asset('frontend/images/' . trim($product->image)),
+                'show_url' => route('admin.products.show', $product),
+            ];
+        });
+
+        return response()->json(['data' => $results]);
+    }
+
+    /**
+     * Handle optional image upload, storing in public/frontend/images.
+     */
+    protected function handleImageUpload(Request $request, array &$validated): void
+    {
+        if (!$request->hasFile('image_file')) {
+            return;
+        }
+
+        $file = $request->file('image_file');
+        $baseName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeName = Str::slug($baseName);
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $safeName ? $safeName . '-' . time() . '.' . $extension : time() . '.' . $extension;
+
+        $destination = public_path('frontend/images');
+        File::ensureDirectoryExists($destination);
+        $file->move($destination, $fileName);
+
+        $validated['image'] = $fileName;
     }
 }
 

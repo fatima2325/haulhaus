@@ -33,6 +33,7 @@ Route::middleware(['auth', 'not.admin'])->group(function () {
 // Admin routes (require authentication and admin username)
 // -----------------------------
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('products/search', [ProductController::class, 'search'])->name('products.search');
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'destroy']);
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'admin'])->get('/dashboard', function () {
 // -----------------------------
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
+Route::get('/shop/search', [ShopController::class, 'search'])->name('shop.search');
 Route::get('/contact', [contactController::class, 'home'])->name('contact');
 Route::post('/contact', [contactController::class, 'store'])->name('contact.store');
 Route::get('/tote', [ToteController::class, 'home'])->name('tote');
