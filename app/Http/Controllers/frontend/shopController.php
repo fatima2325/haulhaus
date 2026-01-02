@@ -19,11 +19,11 @@ class shopController extends Controller
 
         // Get all products from database ONLY
         // This ensures that any changes made in the admin panel are immediately reflected on the frontend
-        $allProducts = Product::orderBy('category')->orderBy('name')->get()
+        $allProducts = Product::with('categoryRelation')->orderBy('category')->orderBy('name')->get()
             ->unique(function ($product) {
                 return $product->name . '|' . $product->category;
             });
-        
+
         // Group by category for display
         $groupedProducts = $allProducts->groupBy('category');
 
@@ -114,9 +114,11 @@ class shopController extends Controller
         }
 
         // Load reviews from database
-        $product->load(['reviews' => function($query) {
-            $query->orderBy('created_at', 'desc');
-        }]);
+        $product->load([
+            'reviews' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }
+        ]);
 
         return view('frontend.product', [
             'product' => $product,

@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'category',
+        'category', // Foreign key (slug)
         'price',
         'image',
         'description',
@@ -30,13 +30,21 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
-    
+
     /**
      * Alias for backward compatibility
      */
     public function productReviews()
     {
         return $this->reviews();
+    }
+
+    /**
+     * Get the category that owns the product.
+     */
+    public function categoryRelation()
+    {
+        return $this->belongsTo(Category::class, 'category', 'slug');
     }
 }
 

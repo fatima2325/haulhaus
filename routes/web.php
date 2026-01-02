@@ -22,8 +22,8 @@ use App\Http\Controllers\ProfileController;
 // Profile routes (require authentication, but exclude admin)
 // -----------------------------
 Route::middleware(['auth', 'not.admin'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
@@ -76,7 +76,7 @@ Route::middleware(['not.admin'])->group(function () {
     Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
     Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
-    
+
     // Checkout page routes
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
     Route::post('/checkout/confirm', [CartController::class, 'confirmCheckout'])->name('checkout.confirm');
@@ -86,7 +86,7 @@ Route::middleware(['not.admin'])->get('/thankyou', function () {
     // Try to get payment method from session, or from the latest order if session is cleared
     $paymentMethod = session('payment_method');
     $orderId = session('orderId');
-    
+
     // If payment method is not in session, try to get it from the database
     if (!$paymentMethod && $orderId) {
         $order = \App\Models\Order::where('order_number', $orderId)->first();
@@ -94,7 +94,7 @@ Route::middleware(['not.admin'])->get('/thankyou', function () {
             $paymentMethod = $order->payment_method;
         }
     }
-    
+
     return view('frontend.thankyou', [
         'paymentMethod' => $paymentMethod,
     ]);
@@ -102,9 +102,7 @@ Route::middleware(['not.admin'])->get('/thankyou', function () {
 
 
 // Review routes (exclude admin, allow guests) - must be before product detail route
-Route::post('/product/{category}/{id}/review', [ReviewController::class, 'store'])
-    ->middleware(['not.admin'])
-    ->name('reviews.store');
+Route::post('/product/{category}/{id}/review', [ReviewController::class, 'store'])->middleware(['not.admin'])->name('reviews.store');
 
 // Product detail page
 Route::get('/product/{category}/{id}', [ShopController::class, 'productDetail'])->name('product.detail');

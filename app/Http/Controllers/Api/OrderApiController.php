@@ -4,71 +4,56 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class OrderApiController extends Controller
 {
-    /**
-     * Get all orders
-     * If user is authenticated, returns only their orders.
-     * If not authenticated, returns all orders (for testing/demo purposes).
-     * 
-     * @return JsonResponse
-     */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        // If user is authenticated, show only their orders
-        if (Auth::check()) {
-            $orders = Order::where('user_id', Auth::id())
-                ->orderBy('created_at', 'desc')
-                ->get();
-        } else {
-            // For unauthenticated requests, return all orders (useful for testing/demo)
-            $orders = Order::orderBy('created_at', 'desc')
-                ->get();
-        }
-        
-        return response()->json([
-            'success' => true,
-            'data' => $orders,
-            'message' => 'Orders retrieved successfully'
-        ]);
+        $orders = Order::where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json(['data' => $orders]);
     }
 
-    /**
-     * Get a specific order by ID
-     * If user is authenticated, only returns their own orders.
-     * If not authenticated, returns any order (for testing/demo purposes).
-     * 
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function show(int $id): JsonResponse
+    public function show(Request $request, $id): JsonResponse
     {
-        // If user is authenticated, only show their orders
-        if (Auth::check()) {
-            $order = Order::where('id', $id)
-                ->where('user_id', Auth::id())
-                ->first();
-        } else {
-            // For unauthenticated requests, return any order (useful for testing/demo)
-            $order = Order::find($id);
-        }
-        
+        $order = Order::where('user_id', $request->user()->id)
+            ->where('id', $id)
+            ->first();
+
         if (!$order) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Order not found'
-            ], 404);
+            return response()->json(['message' => 'Order not found'], 404);
         }
-        
-        return response()->json([
-            'success' => true,
-            'data' => $order,
-            'message' => 'Order retrieved successfully'
+
+        return response()->json(['data' => $order]);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        // Simple order creation API
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'items' => 'required|array',
+            'total_amount' => 'required|numeric'
         ]);
+
+        $order = Order::create([
+            'order_number' => 'API-' . strtoupper(uniqid()),
+            'user_id' => $request->user()->id,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'address' => $validated['address'],
+            'payment_method' => 'API',
+            'total_amount' => $validated['total_amount'],
+            'status' => 'pending',
+            'items' => $validated['items']
+        ]);
+
+        return response()->json(['data' => $order, 'message' => 'Order created'], 201);
     }
 }
-
-

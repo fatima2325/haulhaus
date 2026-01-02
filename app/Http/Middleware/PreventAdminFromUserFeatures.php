@@ -12,7 +12,7 @@ class PreventAdminFromUserFeatures
     /**
      * Handle an incoming request.
      * Prevents admin users from accessing user-specific features like cart, checkout, and orders.
-     *
+    cd *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response

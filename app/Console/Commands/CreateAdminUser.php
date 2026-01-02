@@ -13,7 +13,7 @@ class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:create {email?} {password?}';
+    protected $signature = 'admin:create';
 
     /**
      * The console command description.
@@ -27,9 +27,9 @@ class CreateAdminUser extends Command
      */
     public function handle()
     {
-        $email = $this->argument('email') ?: $this->ask('Enter email address');
-        $password = $this->argument('password') ?: $this->secret('Enter password');
-        
+        $email = 'admin@haulhaus.com';
+        $password = '12345678';
+
         // Check if admin user already exists
         $existingAdmin = User::where('name', 'admin')->first();
         if ($existingAdmin) {
@@ -47,19 +47,19 @@ class CreateAdminUser extends Command
                 return 0;
             }
         }
-        
+
         // Create new admin user
         User::create([
             'name' => 'admin',
             'email' => $email,
             'password' => Hash::make($password),
         ]);
-        
+
         $this->info('Admin user created successfully!');
         $this->info('Email: ' . $email);
         $this->info('Username: admin');
-        $this->info('Password: [the password you entered]');
-        
+        $this->info('Password: 12345678');
+
         return 0;
     }
 }
